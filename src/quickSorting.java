@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class quickSorting {
     private static final int INSERTION_SORT_THRESHOLD = 16;
-    private static final Random RND = new Random();
+    private static final Random RANDOM = new Random();
 
     public static void sort(int[] arr) {
         if (arr == null || arr.length < 2) return;
@@ -16,10 +16,13 @@ public class quickSorting {
                 insertionSort(arr, l, r);
                 return;
             }
+
             int p = partition(arr, l, r);
-            if (p - l < r - p) {         // рекурсией в меньшую часть
+
+            // Optimization: process smaller subarray first to limit recursion depth
+            if (p - l < r - p) {
                 quickSort(arr, l, p - 1);
-                l = p + 1;               // большая часть — циклом (bounded stack)
+                l = p + 1;
             } else {
                 quickSort(arr, p + 1, r);
                 r = p - 1;
@@ -27,40 +30,45 @@ public class quickSorting {
         }
     }
 
-    private static int partition(int[] a, int l, int r) {
-        int m = l + ((r - l) >>> 1);
-        if (a[m] < a[l]) swap(a, l, m);
-        if (a[r] < a[l]) swap(a, l, r);
-        if (a[r] < a[m]) swap(a, m, r);
-        int pivot = a[m];
-        swap(a, m, l);
-        int i = l + 1, j = r;
-        while (true) {
-            while (i <= r && a[i] < pivot) i++;
-            while (j >= l + 1 && a[j] > pivot) j--;
-            if (i >= j) break;
-            swap(a, i++, j--);
+    private static int partition(int[] arr, int l, int r) {
+        // Randomized pivot for better average performance
+        int randomIndex = l + RANDOM.nextInt(r - l + 1);
+        swap(arr, randomIndex, r);
+
+        int pivot = arr[r];
+        int i = l - 1;
+
+        for (int j = l; j < r; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                swap(arr, i, j);
+            }
         }
-        swap(a, l, j);
-        return j;
+        swap(arr, i + 1, r);
+        return i + 1;
     }
 
     private static void insertionSort(int[] a, int l, int r) {
         for (int i = l + 1; i <= r; i++) {
             int key = a[i], j = i - 1;
-            while (j >= l && a[j] > key) { a[j + 1] = a[j]; j--; }
+            while (j >= l && a[j] > key) {
+                a[j + 1] = a[j];
+                j--;
+            }
             a[j + 1] = key;
         }
     }
 
     private static void shuffle(int[] a) {
         for (int i = a.length - 1; i > 0; i--) {
-            int j = RND.nextInt(i + 1);
+            int j = RANDOM.nextInt(i + 1);
             swap(a, i, j);
         }
     }
 
     private static void swap(int[] a, int i, int j) {
-        int t = a[i]; a[i] = a[j]; a[j] = t;
+        int t = a[i];
+        a[i] = a[j];
+        a[j] = t;
     }
 }
