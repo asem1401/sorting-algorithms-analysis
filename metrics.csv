@@ -1,0 +1,21 @@
+algo,n,timeMillis,ok,extra
+MergeSort,1000,1,true,
+QuickSort,1000,1,true,
+Select(MoM5),1000,0,false,avg100
+ClosestPair2D,1000,14,true,dFast=0,000772; dBrute=0,000772; bruteMs=51
+MergeSort,2000,1,true,
+QuickSort,2000,1,true,
+Select(MoM5),2000,0,false,avg100
+ClosestPair2D,2000,12,true,dFast=0,000215; dBrute=0,000215; bruteMs=112
+MergeSort,4000,1,true,
+QuickSort,4000,1,true,
+Select(MoM5),4000,0,false,avg100
+ClosestPair2D,4000,31,true,dFast=0,000292
+MergeSort,8000,2,true,
+QuickSort,8000,2,true,
+Select(MoM5),8000,0,false,avg100
+ClosestPair2D,8000,50,true,dFast=0,000122
+MergeSort,16000,3,true,
+QuickSort,16000,5,true,
+Select(MoM5),16000,1,false,avg100
+ClosestPair2D,16000,65,true,dFast=0,000035
